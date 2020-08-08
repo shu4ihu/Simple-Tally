@@ -1,0 +1,12 @@
+:root {
+  --theme-color: #06c;
+  --ligth-blue: #bbddf3;
+  --white: #fff;
+  --gray: #eee;
+  --deep-gray: #e5e5e5;
+  --ligth-gray: #f6f6f7;
+  --black: #000;
+  --red: red;
+  --divider-white: 1px solid rgba(255, 255, 255, 0.5);
+  --divider-black: 1px solid rgba(0, 0, 0, 0.1);
+}

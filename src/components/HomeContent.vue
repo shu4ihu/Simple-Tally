@@ -1,10 +1,8 @@
 <template>
   <div class="homeContent">
-    <div class="content">
-      <p class="title">今天是</p>
-      <p class="date">{{ year }}年 {{ month + 1 }}月 {{ day }}日</p>
-      <p class="tip">点击下方的「记账」记一笔吧~</p>
-    </div>
+    <p class="title">今天是</p>
+    <p class="date">{{ year }}年 {{ month + 1 }}月 {{ day }}日</p>
+    <p class="tip">点击下方的「记账」记一笔吧~</p>
   </div>
 </template>
 
@@ -27,8 +25,8 @@
 
 <style>
   @import "~@/assets/css/base.css";
-  .content {
-    background-color: white;
+  .homeContent {
+    background-color: #bbddf3;
     color: black;
     padding: 20px;
     font-size: 18px;

@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <div class="navbarItem">
-      <i class="el-icon-tickets"></i>
+      <i class="el-icon-notebook-1"></i>
     </div>
     <div class="navbarItem">
       <p>XX账本</p>
@@ -21,6 +21,9 @@
         default: "首页",
       },
     },
+    beforeCreate() {
+      console.log(this.$route.path);
+    },
   };
 </script>
 
@@ -34,6 +37,11 @@
     font-size: 20px;
     background-color: var(--theme-color);
     color: var(--white);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
   }
   .navbar .navbarItem {
     flex: 1;

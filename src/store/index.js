@@ -12,10 +12,32 @@ const store = new Vuex.Store({
     tallyData: window.localStorage.getItem("tallyData")
       ? JSON.parse(window.localStorage.getItem("tallyData"))
       : [],
+    tallyType: 0,
+    selectedTag: "衣",
+    selectedType: "支出",
   },
   mutations: {
     navNameChange(state, newName) {
       state.navName = newName;
+    },
+    setTallyData(state, data) {
+      const newData = [data, ...state.tallyData];
+      state.tallyData = newData;
+      window.localStorage.setItem("tallyData", JSON.stringify(newData));
+    },
+    setSelectedTag(state, tag) {
+      state.selectedTag = tag;
+    },
+    setSelectedType(state, type) {
+      state.tallyType = type;
+      state.selectedType = type === 0 ? "支出" : "收入";
+    },
+    resetTallyTag(state, tag) {
+      state.selectedTag = tag;
+    },
+    resetTallyType(state, type) {
+      state.tallyType = 0;
+      state.selectedType = type;
     },
   },
   getters: {
@@ -25,6 +47,9 @@ const store = new Vuex.Store({
     getTags(state) {
       return state.tags;
     },
+    // getNavName(state) {
+    //   return this.$route.path;
+    // },
   },
 });
 

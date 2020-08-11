@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <NavBar :navName="$store.state.navName"></NavBar>
-    <router-view></router-view>
+    <router-view class="page"></router-view>
     <MainTabBar></MainTabBar>
   </div>
 </template>
@@ -21,5 +21,11 @@
 <style>
   body {
     background-color: #e5e5e5;
+  }
+  .page {
+    position: relative;
+    top: 55px;
+    left: 0;
+    right: 0;
   }
 </style>

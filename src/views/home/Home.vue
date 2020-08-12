@@ -4,7 +4,7 @@
     <div v-if="tallyData.length > 0">
       <TallyList></TallyList>
     </div>
-    <div v-else>暂无数据</div>
+    <div class="noData" v-else>暂无数据</div>
   </div>
 </template>
 
@@ -25,4 +25,9 @@
   };
 </script>
 
-<style></style>
+<style>
+  .noData {
+    font-size: 28px;
+    color: grey;
+  }
+</style>

@@ -25,7 +25,7 @@ const store = new Vuex.Store({
       state.tallyData = newData;
       window.localStorage.setItem("tallyData", JSON.stringify(newData));
     },
-    setTags(state, data) {
+    setTag(state, data) {
       state.tags = data;
       window.localStorage.setItem("tags", JSON.stringify(data));
     },
@@ -42,6 +42,16 @@ const store = new Vuex.Store({
     resetTallyType(state, type) {
       state.tallyType = 0;
       state.selectedType = type;
+    },
+    refresh(state, href) {
+      let refreshName = href.includes("tag")
+        ? "标签"
+        : href.includes("detail")
+        ? "明细"
+        : href.includes("tally")
+        ? "记账"
+        : "首页";
+      state.navName = refreshName;
     },
   },
   getters: {

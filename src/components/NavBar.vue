@@ -15,6 +15,11 @@
 <script>
   export default {
     name: "NavBar",
+    data() {
+      return {
+        // navName: this.props.navName,
+      };
+    },
     props: {
       navName: {
         type: String,
@@ -22,7 +27,8 @@
       },
     },
     beforeCreate() {
-      console.log(this.$route.path);
+      const href = window.location.href;
+      this.$store.commit("refresh", href);
     },
   };
 </script>

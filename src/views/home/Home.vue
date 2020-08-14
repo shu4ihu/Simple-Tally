@@ -4,7 +4,7 @@
     <div v-if="tallyData.length > 0">
       <TallyList></TallyList>
     </div>
-    <div class="noData" v-else>暂无数据</div>
+    <div v-else class="noData">暂无数据</div>
   </div>
 </template>
 
@@ -19,7 +19,7 @@
     },
     data() {
       return {
-        tallyData: this.$store.getters.getTallyData,
+        tallyData: this.$store.getters.getTallyData.slice(0, 7),
       };
     },
   };

@@ -1,18 +1,16 @@
 <template>
-  <div>
-    <TabBar>
-      <TabBarItem
-        v-for="(item, index) in tabbarItems"
-        :key="index"
-        :path="item.path"
-        @click="navName = item.title"
-        :item="item"
-      >
-        <i :class="item.icon" slot="itemIcon"></i>
-        <span slot="itemText">{{ item.title }}</span>
-      </TabBarItem>
-    </TabBar>
-  </div>
+  <TabBar>
+    <TabBarItem
+      v-for="(item, index) in tabbarItems"
+      :key="index"
+      :path="item.path"
+      @click="navName = item.title"
+      :item="item"
+    >
+      <i :class="item.icon" slot="itemIcon"></i>
+      <span slot="itemText">{{ item.title }}</span>
+    </TabBarItem>
+  </TabBar>
 </template>
 
 <script>

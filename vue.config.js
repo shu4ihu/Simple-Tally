@@ -1,9 +1,8 @@
-// vue.config.js
 const path = require("path");
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 const resolve = (dir) => path.join(__dirname, dir);
 module.exports = {
-  publicPath: process.env.NODE_ENV === "production" ? "/Simple-Tally/" : "/", // 公共路径
+  publicPath: process.env.NODE_ENV === "production" ? "/tallyDemo/" : "/", // 公共路径
   configureWebpack: {
     resolve: {
       alias: {},

@@ -20,6 +20,7 @@
     components: {
       TallyList,
     },
+    methods: {},
   };
 </script>
 

@@ -1,7 +1,6 @@
 <template>
   <div class="tally">
     <TallyInput></TallyInput>
-    <!-- 标签部分 -->
     <TallyTags></TallyTags>
   </div>
 </template>

@@ -74,27 +74,31 @@
           });
       },
       addTag() {
-        this.$prompt("请输入标签名", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          inputPattern: /^\S{1,3}$/,
-          inputErrorMessage: "不能有空格，字数不能超过3个",
-        })
-          .then(({ value }) => {
-            if (this.tags.includes(value)) {
-              this.$message.warning("标签名重复");
-            } else {
-              this.tags.push(value);
-              this.$store.commit("setTag", this.tags);
-              this.$message.success("新建的标签名是：" + value);
-            }
+        if (this.tags.length >= 10) {
+          this.$message.warning("标签太多了");
+        } else {
+          this.$prompt("请输入标签名", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            inputPattern: /^\S{1,3}$/,
+            inputErrorMessage: "不能有空格，字数不能超过3个",
           })
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "取消输入",
+            .then(({ value }) => {
+              if (this.tags.includes(value)) {
+                this.$message.warning("标签名重复");
+              } else {
+                this.tags.push(value);
+                this.$store.commit("setTag", this.tags);
+                this.$message.success("新建的标签名是：" + value);
+              }
+            })
+            .catch(() => {
+              this.$message({
+                type: "info",
+                message: "取消输入",
+              });
             });
-          });
+        }
       },
     },
   };

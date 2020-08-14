@@ -25,6 +25,10 @@ const store = new Vuex.Store({
       state.tallyData = newData;
       window.localStorage.setItem("tallyData", JSON.stringify(newData));
     },
+    saveTallyData(state, data) {
+      state.tallyData = data;
+      window.localStorage.setItem("tallyData", JSON.stringify(data));
+    },
     setTag(state, data) {
       state.tags = data;
       window.localStorage.setItem("tags", JSON.stringify(data));

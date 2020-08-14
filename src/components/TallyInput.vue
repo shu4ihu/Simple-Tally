@@ -49,6 +49,7 @@
     },
     data() {
       return {
+        tallyData: this.$store.state.tallyData,
         remark: "",
         remarkMaxLength: 10,
         price: 0,
@@ -115,6 +116,16 @@
           }
         }
       },
+      transDate(time) {
+        const date = new Date(time);
+        const year = date.getFullYear() + "-";
+        const month =
+          (date.getMonth() + 1 <= 10
+            ? "0" + (date.getMonth() + 1)
+            : date.getMonth() + 1) + "-";
+        const day = date.getDate();
+        return year + month + day;
+      },
       submit() {
         if (this.remark.trim() && Number(this.price)) {
           const createdTime = new Date().getTime();
@@ -122,7 +133,8 @@
           const remark = this.remark;
           const tag = this.tag;
           const type = this.type;
-          const data = { type, createdTime, price, remark, tag };
+          const no = createdTime;
+          const data = { type, createdTime, price, remark, tag, no };
           this.$store.commit("setTallyData", data);
           this.price = 0;
           this.remark = "";

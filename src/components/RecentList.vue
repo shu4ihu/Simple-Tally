@@ -1,47 +1,49 @@
 <template>
-  <div class="tallyList">
-    <el-collapse>
-      <el-collapse-item
-        :title="dateItem.createdTime"
-        v-for="(dateItem, index) in collapseItem"
-        :key="index"
-        class="dateItem"
-      >
-        <ul class="dateItemList">
-          <li v-for="(item, index) in dateItem.item" :key="index">
-            <el-row class="tallyDataItem">
-              <el-col
-                :class="[
-                  'I&E',
-                  item.type == '支出' ? 'expenseList' : 'incomeList',
-                ]"
-                >{{ item.type }}</el-col
-              >
-              <el-col class="tag=">{{ item.tag }}</el-col>
-              <el-col class="remark">{{ item.remark }}</el-col>
-              <el-col
-                :class="[
-                  'price',
-                  item.type == '支出' ? 'expenseList' : 'incomeList',
-                ]"
-                >{{ item.price }} 元
-              </el-col>
-              <el-col>
-                <i class="el-icon-delete" @click="deleteItem(item)"></i>
-              </el-col>
-            </el-row>
-          </li>
-        </ul>
-      </el-collapse-item>
-    </el-collapse>
+  <div class="recentList">
+    <section class="recentTitle">
+      最近收支
+    </section>
+    <div v-if="tallyData.length > 0">
+      <div class="tallyList">
+        <el-collapse>
+          <el-collapse-item
+            :title="collapseItem[0].createdTime"
+            class="dateItem"
+          >
+            <ul class="dateItemList">
+              <li v-for="(item, index) in collapseItem[0].item" :key="index">
+                <el-row class="tallyDataItem">
+                  <el-col
+                    :class="[
+                      'I&E',
+                      item.type == '支出' ? 'expenseList' : 'incomeList',
+                    ]"
+                    >{{ item.type }}</el-col
+                  >
+                  <el-col class="tag=">{{ item.tag }}</el-col>
+                  <el-col class="remark">{{ item.remark }}</el-col>
+                  <el-col
+                    :class="[
+                      'price',
+                      item.type == '支出' ? 'expenseList' : 'incomeList',
+                    ]"
+                    >{{ item.price }} 元</el-col
+                  >
+                </el-row>
+              </li>
+            </ul>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+    </div>
+    <div v-else class="noData">暂无数据</div>
   </div>
 </template>
 
 <script>
   import { filterDate } from "@/filters/index.js";
   export default {
-    name: "TallyList",
-    inject: ["reload"],
+    name: "RecentList",
     data() {
       return {
         tallyData: this.$store.state.tallyData,
@@ -49,17 +51,6 @@
       };
     },
     methods: {
-      deleteItem(item) {
-        console.log(item);
-        console.log(this.tallyData);
-        const index = this.tallyData.findIndex((element) => {
-          return item.no === element.no;
-        });
-        console.log(index);
-        this.tallyData.splice(index, 1);
-        this.$store.commit("saveTallyData", this.tallyData);
-        this.reload();
-      },
       transDate(time) {
         const date = new Date(time);
         const year = date.getFullYear() + "-";
@@ -106,7 +97,12 @@
   };
 </script>
 
-<style scoped>
+<style>
+  .recentTitle {
+    height: 44px;
+    line-height: 44px;
+    font-size: 18px;
+  }
   .tallyList .tallyDataItem {
     box-sizing: content-box;
     display: flex;
@@ -139,8 +135,8 @@
   .dateItemList li:nth-child(even) {
     background-color: #bbddf3;
   }
-  .el-icon-delete {
-    font-size: 19px;
-    flex: 0 0 10%;
+  .noData {
+    font-size: 28px;
+    color: grey;
   }
 </style>

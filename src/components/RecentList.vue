@@ -130,10 +130,10 @@
     white-space: nowrap;
   }
   .dateItemList li {
-    background-color: antiquewhite;
+    /* background-color: antiquewhite; */
   }
   .dateItemList li:nth-child(even) {
-    background-color: #bbddf3;
+    /* background-color: #bbddf3; */
   }
   .noData {
     font-size: 28px;

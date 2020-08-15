@@ -74,7 +74,9 @@
           });
       },
       addTag() {
-        if (this.tags.length >= 10) {
+        console.log(document.body.offsetWidth);
+        const flag = document.body.offsetWidth === 320 ? 8 : 10;
+        if (this.tags.length >= flag) {
           this.$message.warning("标签太多了");
         } else {
           this.$prompt("请输入标签名", "提示", {

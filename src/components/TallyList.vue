@@ -9,27 +9,33 @@
       >
         <ul class="dateItemList">
           <li v-for="(item, index) in dateItem.item" :key="index">
-            <el-row class="tallyDataItem">
-              <el-col
-                :class="[
-                  'I&E',
-                  item.type == '支出' ? 'expenseList' : 'incomeList',
-                ]"
-                >{{ item.type }}</el-col
-              >
-              <el-col class="tag=">{{ item.tag }}</el-col>
-              <el-col class="remark">{{ item.remark }}</el-col>
-              <el-col
+            <div class="tallyDataItem">
+              <div class="tag">
+                {{ item.tag }}
+                <span
+                  :class="[
+                    'I&E',
+                    item.type == '支出' ? 'expenseList' : 'incomeList',
+                  ]"
+                >
+                  {{ item.type }}
+                </span>
+              </div>
+              <div class="remark">{{ item.remark }}</div>
+              <div
                 :class="[
                   'price',
                   item.type == '支出' ? 'expenseList' : 'incomeList',
                 ]"
-                >{{ item.price }} 元
-              </el-col>
-              <el-col>
+              >
+                {{ item.price }} 元
+              </div>
+              <div class="iconWrap">
+                <i class="el-icon-edit" @click="editItem(item)"></i>
                 <i class="el-icon-delete" @click="deleteItem(item)"></i>
-              </el-col>
-            </el-row>
+              </div>
+            </div>
+            <div :class="{ line: !(index + 1 == dateItem.item.length) }"></div>
           </li>
         </ul>
       </el-collapse-item>
@@ -49,6 +55,9 @@
       };
     },
     methods: {
+      editItem(item) {
+        console.log(item);
+      },
       deleteItem(item) {
         console.log(item);
         console.log(this.tallyData);
@@ -56,9 +65,27 @@
           return item.no === element.no;
         });
         console.log(index);
-        this.tallyData.splice(index, 1);
-        this.$store.commit("saveTallyData", this.tallyData);
-        this.reload();
+
+        this.$confirm("是否确定删除该收支明细？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
+          .then(() => {
+            this.tallyData.splice(index, 1);
+            this.$store.commit("saveTallyData", this.tallyData);
+            this.$message({
+              type: "success",
+              message: "删除成功",
+            });
+            this.reload();
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除",
+            });
+          });
       },
       transDate(time) {
         const date = new Date(time);
@@ -108,17 +135,26 @@
 
 <style scoped>
   .tallyList .tallyDataItem {
-    box-sizing: content-box;
-    display: flex;
+    box-sizing: border-box;
     justify-content: space-between;
     align-items: center;
-    margin: 7px 0;
-    padding: 6px 8px;
-    border-radius: 5px;
-    height: 16px;
-    line-height: 16px;
+    width: 100%;
+    height: 40px;
+    position: relative;
     text-align: center;
-    font-size: 14px;
+    font-size: 20px;
+  }
+  .tallyList .tallyDataItem div {
+    display: inline-block;
+    line-height: 40px;
+  }
+  .tallyList .tallyDataItem span {
+    font-size: 10px;
+  }
+  .line {
+    width: 100%;
+    background-color: #ebeef5;
+    height: 1px;
   }
   .expenseList {
     color: red;
@@ -126,21 +162,31 @@
   .incomeList {
     color: green;
   }
+  .tag {
+    position: absolute;
+    left: 20px;
+  }
+  .price {
+    width: 25%;
+    font-size: 16px;
+    position: absolute;
+    right: 100px;
+  }
+  .iconWrap {
+    position: absolute;
+    right: 25px;
+  }
+  .el-icon-delete {
+    margin-left: 15px;
+    font-size: 18px;
+  }
   .remark {
-    flex: 0 0 25%;
     width: 25%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-  }
-  .dateItemList li {
-    background-color: antiquewhite;
-  }
-  .dateItemList li:nth-child(even) {
-    background-color: #bbddf3;
-  }
-  .el-icon-delete {
-    font-size: 19px;
-    flex: 0 0 10%;
+    font-size: 16px;
+    position: absolute;
+    left: 90px;
   }
 </style>

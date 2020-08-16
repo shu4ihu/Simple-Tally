@@ -12,14 +12,14 @@
             <div class="tallyDataItem">
               <div class="tag">
                 {{ item.tag }}
-                <span
+                <!-- <span
                   :class="[
                     'I&E',
                     item.type == '支出' ? 'expenseList' : 'incomeList',
                   ]"
                 >
                   {{ item.type }}
-                </span>
+                </span> -->
               </div>
               <div class="remark">{{ item.remark }}</div>
               <div
@@ -52,11 +52,29 @@
       return {
         tallyData: this.$store.state.tallyData,
         collapseItem: [],
+        tags: this.$store.getters.getTags,
       };
     },
     methods: {
       editItem(item) {
-        console.log(item);
+        const route = {
+          name: "tally",
+          params: {
+            item: item,
+            flag: 1,
+          },
+        };
+        const tagFind = this.tags.find((element, index) => {
+          return element == item.tag;
+        });
+        if (tagFind) {
+          this.$router.push(route);
+        } else {
+          this.$message({
+            type: "info",
+            message: "当前收支明细的标签不存在，请先创建该标签！",
+          });
+        }
       },
       deleteItem(item) {
         console.log(item);
@@ -95,7 +113,14 @@
             ? "0" + (date.getMonth() + 1)
             : date.getMonth() + 1) + "-";
         const day = date.getDate();
-        return year + month + day;
+        return {
+          createdTime: year + month + day,
+          num: {
+            year: date.getFullYear(),
+            month: date.getMonth() + 1,
+            day: date.getDate(),
+          },
+        };
       },
       sortedData(arr) {
         let newArr = [];
@@ -111,6 +136,7 @@
             newArr.push({
               createdTime: element.createdTime,
               item: [element],
+              date: element.date,
             });
           } else {
             newArr[index].item.push(element);
@@ -126,9 +152,23 @@
       const data = JSON.parse(JSON.stringify(this.tallyData));
       for (let i = 0; i < data.length; i++) {
         const date = this.transDate(data[i].createdTime);
-        data[i].createdTime = date;
+        data[i].createdTime = date.createdTime;
+        data[i].date = date.num;
       }
       this.collapseItem = this.sortedData(data);
+      // const time = [];
+      // this.collapseItem.map((element, index) => {
+      //   time[index] = element.createdTime.split("-");
+      // });
+      // console.log(time);
+      // time.forEach((element, outsideIndex) => {
+      //   console.log(element);
+      //   element.forEach((value, insideIndex) => {
+      //     time[outsideIndex][insideIndex] = parseInt(value);
+      //   });
+      // });
+      // console.log(time);
+      console.log(this.collapseItem);
     },
   };
 </script>
@@ -152,7 +192,6 @@
     font-size: 10px;
   }
   .line {
-    width: 100%;
     background-color: #ebeef5;
     height: 1px;
   }
@@ -164,13 +203,13 @@
   }
   .tag {
     position: absolute;
-    left: 20px;
+    left: 10px;
   }
   .price {
     width: 25%;
     font-size: 16px;
     position: absolute;
-    right: 100px;
+    right: 80px;
   }
   .iconWrap {
     position: absolute;

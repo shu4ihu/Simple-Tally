@@ -2,13 +2,13 @@
   <div class="typeWrap">
     <el-row class="type">
       <el-col
-        :class="['expense', { selected: type === 0 }]"
+        :class="['expense', { selected: this.type === 0 }]"
         :span="12"
         @click.native.stop="expenseClick()"
         >支出</el-col
       >
       <el-col
-        :class="['income', { selected: type === 1 }]"
+        :class="['income', { selected: this.type === 1 }]"
         :span="12"
         @click.native.stop="incomeClick()"
         >收入</el-col
@@ -20,13 +20,27 @@
 <script>
   export default {
     name: "TallyType",
-    computed: {
-      type: {
-        get() {
-          return this.$store.state.tallyType;
-        },
-        set() {},
+    props: {
+      editItemType: {
+        type: String,
+        default: "支出",
       },
+      flag: {
+        type: Number,
+        default: 0,
+      },
+    },
+    data() {
+      return {
+        type: !this.flag
+          ? this.$store.state.tallyType
+          : this.editItemType === "收入"
+          ? 1
+          : 0,
+      };
+    },
+    created() {
+      console.log(this.type);
     },
     methods: {
       expenseClick() {

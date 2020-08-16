@@ -69,6 +69,7 @@
 <style>
   body {
     background-color: #e5e5e5;
+    padding: 0 !important;
   }
   .content {
     padding-top: 55px;

@@ -17,19 +17,23 @@
 <script>
   export default {
     name: "TallyTags",
+    props: {
+      editItemTag: {
+        type: String,
+        default: "衣",
+      },
+      flag: {
+        type: Number,
+        default: 0,
+      },
+    },
     data() {
       return {
         tags: this.$store.getters.getTags,
-        selectedItem: "衣",
+        selectedTag: !this.flag
+          ? this.$store.state.selectedTag
+          : this.editItemTag,
       };
-    },
-    computed: {
-      selectedTag: {
-        get() {
-          return this.$store.state.selectedTag;
-        },
-        set() {},
-      },
     },
     methods: {
       tagClick(item) {

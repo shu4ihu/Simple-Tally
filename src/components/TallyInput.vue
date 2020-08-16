@@ -1,7 +1,7 @@
 <template>
   <div class="tallyInputWrap">
     <!-- 记账分类部分 -->
-    <TallyType></TallyType>
+    <TallyType :editItemType="this.editItem.type" :flag="this.flag"></TallyType>
     <!-- 输入框 -->
     <div class="tallyInput">
       <div class="input">
@@ -47,12 +47,29 @@
     components: {
       TallyType,
     },
+    props: {
+      editItem: {
+        type: Object,
+        default: {
+          tag: "衣",
+          type: "支出",
+          no: 0,
+          price: 0,
+          remark: "",
+          createdTime: "",
+        },
+      },
+      flag: {
+        type: Number,
+        default: 0,
+      },
+    },
     data() {
       return {
+        price: !this.flag ? 0 : this.editItem.price,
         tallyData: this.$store.state.tallyData,
-        remark: "",
+        remark: !this.flag ? "" : this.editItem.remark,
         remarkMaxLength: 10,
-        price: 0,
         calcData: [1, 2, 3, "删除", 4, 5, 6, "清空", 7, 8, 9, "确认", 0, "."],
       };
     },
@@ -80,6 +97,7 @@
     },
     methods: {
       calcItemClick(item) {
+        console.log(item);
         switch (item) {
           case "删除": {
             if (this.price.length > 1) {
@@ -94,11 +112,11 @@
             break;
           }
           case "确认": {
-            this.submit();
+            this.submitClick();
             break;
           }
           case ".": {
-            // 当price已经有小数点的时候，不改变price
+            // 当price已经有小数点的时候，重复点小数点按钮不改变price
             if (!this.price.includes(".")) {
               this.price = `${this.price}${item}`;
             }
@@ -126,6 +144,9 @@
         const day = date.getDate();
         return year + month + day;
       },
+      submitClick() {
+        !this.flag ? this.submit() : this.edit();
+      },
       submit() {
         if (this.remark.trim() && Number(this.price)) {
           const createdTime = new Date().getTime();
@@ -134,6 +155,25 @@
           const tag = this.tag;
           const type = this.type;
           const no = createdTime;
+          const data = { type, createdTime, price, remark, tag, no };
+          this.$store.commit("setTallyData", data);
+          this.price = 0;
+          this.remark = "";
+          this.$store.commit("resetTallyTag", "衣");
+          this.$store.commit("resetTallyType", "支出");
+          this.$message.success("保存成功");
+        } else {
+          this.$message.info("备注不能为空，金额也不能为0");
+        }
+      },
+      edit() {
+        if (this.remark.trim() && Number(this.price)) {
+          const createdTime = this.editItem.createdTime;
+          const no = createdTime;
+          const price = this.price;
+          const remark = this.remark;
+          const tag = this.tag;
+          const type = this.type;
           const data = { type, createdTime, price, remark, tag, no };
           this.$store.commit("setTallyData", data);
           this.price = 0;

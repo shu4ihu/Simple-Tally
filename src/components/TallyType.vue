@@ -39,9 +39,6 @@
           : 0,
       };
     },
-    created() {
-      console.log(this.type);
-    },
     methods: {
       expenseClick() {
         this.type = 0;

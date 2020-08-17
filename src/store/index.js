@@ -22,6 +22,9 @@ const store = new Vuex.Store({
     },
     setTallyData(state, data) {
       const newData = [data, ...state.tallyData];
+      newData.sort((a, b) => {
+        return a.no < b.no ? 1 : -1;
+      });
       state.tallyData = newData;
       window.localStorage.setItem("tallyData", JSON.stringify(newData));
     },

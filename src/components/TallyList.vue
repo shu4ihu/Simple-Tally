@@ -156,19 +156,6 @@
         data[i].date = date.num;
       }
       this.collapseItem = this.sortedData(data);
-      // const time = [];
-      // this.collapseItem.map((element, index) => {
-      //   time[index] = element.createdTime.split("-");
-      // });
-      // console.log(time);
-      // time.forEach((element, outsideIndex) => {
-      //   console.log(element);
-      //   element.forEach((value, insideIndex) => {
-      //     time[outsideIndex][insideIndex] = parseInt(value);
-      //   });
-      // });
-      // console.log(time);
-      console.log(this.collapseItem);
     },
   };
 </script>

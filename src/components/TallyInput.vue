@@ -97,7 +97,6 @@
     },
     methods: {
       calcItemClick(item) {
-        console.log(item);
         switch (item) {
           case "删除": {
             if (this.price.length > 1) {
@@ -149,12 +148,13 @@
       },
       submit() {
         if (this.remark.trim() && Number(this.price)) {
-          const createdTime = new Date().getTime();
+          const time = new Date().getTime();
+          const createdTime = this.transDate(time);
           const price = this.price;
           const remark = this.remark;
           const tag = this.tag;
           const type = this.type;
-          const no = createdTime;
+          const no = time;
           const data = { type, createdTime, price, remark, tag, no };
           this.$store.commit("setTallyData", data);
           this.price = 0;
@@ -169,12 +169,16 @@
       edit() {
         if (this.remark.trim() && Number(this.price)) {
           const createdTime = this.editItem.createdTime;
-          const no = createdTime;
+          const no = this.editItem.no;
           const price = this.price;
           const remark = this.remark;
           const tag = this.tag;
           const type = this.type;
           const data = { type, createdTime, price, remark, tag, no };
+          const index = this.tallyData.findIndex((element) => {
+            return element.no === no;
+          });
+          this.tallyData.splice(index, 1);
           this.$store.commit("setTallyData", data);
           this.price = 0;
           this.remark = "";
